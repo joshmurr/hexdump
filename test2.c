@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdint.h>
 
-#include "bmp.h"
-
 int main(int argc, char *argv[]){
     int c, max, counter;
     int i=0;
@@ -28,11 +26,12 @@ int main(int argc, char *argv[]){
 
     printf("%08x  ", i);
     for (max=size; i<max && (c = getc(inputFile)) != EOF; ++i){
-        printf("%x", c);
+        printf("%02x", c);
         if (i % 16 == 15) {
-            putchar('\n');
-            printf("%08x  ", i);
-        } else if (i % 2 == 1) {
+            printf("\n%08x  ", i);
+        } else if (i % 8 == 7) {
+            printf("%*c", 2, ' ');
+        } else {
             putchar(' ');
         }
     } 
