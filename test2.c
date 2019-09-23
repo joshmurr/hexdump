@@ -34,11 +34,18 @@ int main(int argc, char *argv[]){
             line[i] = c;
             c = getc(inputFile);
             if(c == EOF){
-                line[i] = ' ';
+                line[i] = '\0';
             }
             offset++;
         } 
         int j=0;
+        printf("%08x ", line[j]);
+        j++;
+        do {
+            printf("%02x ", line[j]);
+            j++;
+        } while(j<9);
+        printf("%*c", 2, ' ');
         do {
             printf("%02x ", line[j]);
             j++;
