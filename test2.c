@@ -22,44 +22,59 @@ int main(int argc, char *argv[]){
     fseek(inputFile, 0L, SEEK_SET);
 
     int lineLen = 17;
-    char line[lineLen];
+    unsigned char line[lineLen];
     int i, c, offset = 0;
 
-    c = getc(inputFile);
     while (c != EOF) {
         i = 0;
         line[i]  = (char)offset;
 
         for (i=1; i<lineLen; ++i){
-            line[i] = c;
             c = getc(inputFile);
             if(c == EOF){
                 line[i] = '\0';
+            } else {
+                line[i] = c;
+                offset++;
             }
-            offset++;
         } 
+
+        // PRINT LINES ::
+        // --------------
+        // OFFSET
         int j=0;
-        printf("%08x ", line[j]);
+        printf("%08x  ", line[j]);
+
+        // 8 BYTES
         j++;
         do {
-            printf("%02x ", line[j]);
+            if(line[j] == '\0') printf("%s", "00 ");
+            else printf("%02x ", line[j]);
             j++;
         } while(j<9);
-        printf("%*c", 2, ' ');
+
+        // DOUBLE SPACE
+        printf("%c", ' ');
+
+        // 8 BYTES
         do {
-            printf("%02x ", line[j]);
+            if(line[j] == '\0') printf("%s", "00 ");
+            else printf("%02x ", line[j]);
             j++;
         } while(j<lineLen);
-        printf("%s", "  |");
-        int k=0;
+
+        // PERUSAL
+        printf("%s", " |");
+        int k=1;
         do {
-            if(line[k] == '\n') printf("%c", ' ');
+            if(line[k] == 10) printf("%c", 46);
             else printf("%c", line[k]);
             k++;
         } while(k<lineLen); 
         printf("%s", "|\n");
-
     };
+
+    printf("%08x\n", offset);
     fclose(inputFile);
 
     return 0;
