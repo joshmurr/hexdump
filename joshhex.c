@@ -26,21 +26,17 @@ int main(int argc, char *argv[]){
     int i, c, offset = 0;
 
     while (c != EOF) {
-        // MAKE LINE ::
-        // ------------
         i = 0;
-        line[i]  = offset;
+        line[i]  = (char)offset;
 
         for (i=1; i<lineLen; ++i){
             c = getc(inputFile);
-            if(c == EOF) line[i] = EOF;
-            else line[i] = c;
+            line[i] = c;
             offset++;
         } 
 
         // PRINT LINES ::
         // --------------
-        
         // OFFSET
         int j=0;
         printf("%08x  ", line[j]);
@@ -49,6 +45,7 @@ int main(int argc, char *argv[]){
         j++;
         do {
             if(line[j] == EOF) printf("%*c", 3, ' ');
+            else if(line[j] == '\0') printf("%s", "00 ");
             else printf("%02x ", line[j]);
             j++;
         } while(j<9);
@@ -59,6 +56,7 @@ int main(int argc, char *argv[]){
         // 8 BYTES
         do {
             if(line[j] == EOF) printf("%*c", 3, ' ');
+            else if(line[j] == '\0') printf("%s", "00 ");
             else printf("%02x ", line[j]);
             j++;
         } while(j<lineLen);
@@ -68,8 +66,7 @@ int main(int argc, char *argv[]){
         int k=1;
         do {
             // if CTRL-char print .
-            if(line[k] >= 0 && line[k] <= 31) printf("%c", 46); 
-            else if(line[k] >= 127) printf("%c", 46);
+            if((line[k] >= 0 && line[k] <= 31) || line[k] >= 127) printf("%c", 46);
             else printf("%c", line[k]);
             k++;
         } while(k<lineLen); 
