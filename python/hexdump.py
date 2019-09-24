@@ -19,15 +19,30 @@ def main():
         offset = 0
 
         for b in readfile:
+            line = []
+            print(f'{offset:08x}', end='')
             for integer in b:
-                if offset % 16 == 0:
-                    print()
-                    print(f'{offset:08x}  ', end='')
-                if offset % 8 == 7:
-                    print(f'{integer:02x}  ', end='')
+                if offset % 16 == 15:
+                    print(f" {integer:02x}  |", end='')
+                    for c in line:
+                        if c < 127 and c > 0:
+                            try:
+                                print(str(chr(c)), end='')
+                            except ValueError:
+                                print('.', end='')
+                        else:
+                            print('.', end='')
+                    print('|')
+                    # Newline
+                    print(f'{offset+1:08x}', end='')
+                    line.clear()
+                elif offset % 8 == 0:
+                    # 17 % 9 == 8
+                    print(f'  {integer:02x}', end='')
                 else:
-                    print(f'{integer:02x} ', end='')
+                    print(f' {integer:02x}', end='')
 
+                line.append(integer)
                 offset += 1
             print('*')
 
