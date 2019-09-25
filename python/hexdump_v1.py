@@ -1,23 +1,15 @@
 import sys
-import filetype
 
 def get_remainder(val, n):
-    return val+(n-(val%n))
+    return n-(val%n)
 
 def main():
     if len(sys.argv) != 2:
         sys.exit("Usage: hexdump.py <file>")
 
     infile = sys.argv[1]
-    kind = filetype.guess(infile)
-    if kind is None:
-        print('Cannot guess filetype')
-        return 1
 
     with open(infile, 'rb') as readfile:
-        print("Checking file of type %s" % kind.extension)
-        print()
-
         offset = 0
 
         for b in readfile:
@@ -53,14 +45,7 @@ def main():
 
                 offset += 1
 
-            rest = get_remainder(offset, 16) - offset
-
-            for i in range(rest):
-                line.append('*')
-
             print('*')
-
-            print(line)
 
 
 if __name__ == "__main__":
