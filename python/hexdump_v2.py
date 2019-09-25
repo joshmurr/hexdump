@@ -2,10 +2,6 @@ import sys
 from itertools import zip_longest
 
 
-def get_remainder(val, n):
-    return n-(val % n)
-
-
 def grouper(iterable, n, fillvalue=None):
     args = [iter(iterable)] * n
     return zip_longest(*args, fillvalue=fillvalue)
